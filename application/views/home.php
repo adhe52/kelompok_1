@@ -45,7 +45,6 @@
             <img src="img/merbabu.jpg" alt="" width="60px" height="69px" align="left">
             <h1><a href="index.html">Taman Nasional Gunung Merbabu</a></h1>
             <ul>
-                <li class="active"><a href="index.html">HOME</a></li>
                 <li><a href="booking.php">Booking Tiket</a></li>
                 <li><a href="login.php">Admin</a></li>
 

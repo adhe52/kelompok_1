@@ -38,22 +38,24 @@
                                                     <h1 class="h4 text-gray-900 mb-4"><b>Taman Nasional Gunung Merbabu</b></h1>
                                                 </div>
 
-                                                <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
+                                                <form action="<?= base_url('admin') ?>" method="POST">
                                                     <div class="form-group">
                                                         <label for="inputEmailAddress" class="small mb-1"></label>
-                                                        <input type="email" name="email" id="inputEmailAddress" placeholder="Enter email address" class="form-control py-4">
+                                                        <input type="text" name="email" id="inputEmailAddress" placeholder="Enter email address" class="form-control py-4" autocomplete="off">
+                                                        <?= form_error('email', '<small class="text-danger pl-3">', '</small>'); ?>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="inputPassword" class="small mb-1"></label>
-                                                        <input type="password" name="password" id="inputPassword" placeholder="Enter password" class="form-control py-4">
+                                                        <input type="password" name="password" id="inputPassword" placeholder="Enter password" class="form-control py-4" autocomplete="off">
+                                                        <?= form_error('password', '<small class="text-danger pl-3">', '</small>'); ?>
                                                     </div>
                                                     <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                        <button class="btn btn-success w-100" name="login">Login</button>
-
+                                                        <button type="submit" class="btn btn-success w-100" name="login">Login</button>
                                                     </div>
                                                     <br>
                                                     <a href="<?php echo base_url('web') ?>" class="btn btn-danger w-100">Kembali</a>
                                                 </form>
+
 
                                             </div>
                                         </div>

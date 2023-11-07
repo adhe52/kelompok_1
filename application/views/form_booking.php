@@ -1,3 +1,6 @@
+<?php
+defined('BASEPATH') or exit('No direct script allowed');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,9 +9,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking Online</title>
-    <link rel="stylesheet" href="assets/css/style-booking.css">
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
-    <script src="assets/js/jquery.js"></script>
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/style-booking.css">
+    <link href="<?= base_url() ?>assets/css/bootstrap.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
     <style>
         p {
             line-height: 15px;
@@ -21,6 +25,10 @@
         button {
             padding-left: 50px;
         }
+
+        td {
+            padding-bottom: 10px;
+        }
     </style>
 
 <body background="assets/img/gedung.jpg" style="height : 100%">
@@ -31,32 +39,29 @@
 
     <div class="wrap" style="background-color:white">
 
-        <form method="POST">
+        <form method="POST" style="margin-top: 20px; margin-bottom: 20px;">
             <table width="682">
                 <div class="form-group">
-                    <h3 style="background-color:grey" align="center">Form Identitas Diri</h3>
+                    <h3 style="background-color: grey" align="center">Form Identitas Diri</h3>
                     <tr>
                         <td>Kode Booking</td>
                         <td>
-                            <?php
-                            $id = mysqli_query($conn, "select max(id) as maxID from booking");
-                            $datakode = mysqli_fetch_array($id);
-
-                            $kodebooking = $datakode['maxID'];
-
-                            $kodebooking++;
-                            $ket = date("Ymd");
-                            $kodeauto = $ket . sprintf("%03s", $kodebooking);
-
+                            <?php foreach ($kd as $data) :
+                                $a = $data['id'];
+                                $hari = date('Ym');
+                                $urutan = (int) substr($a, 6, 3);
+                                $urutan++;
+                                $kd = $hari . sprintf("%03s", $urutan)
                             ?>
-                            <input type="text" name="unik" value="<?= $kodeauto; ?>" class="form-control" readonly>
+                                <input type="text" name="unik" value="<?= $kd; ?>" class="form-control" readonly>
+                            <?php endforeach; ?>
 
                         </td>
                     </tr>
 
                     <tr>
                         <div class="col-lg-3">
-                            <td>Nama Depan</td>
+                            <td>Nama Depan </td>
                             <td><input type="text" name="depan" class="form-control" required="required"></td>
                         </div>
                     </tr>
@@ -97,36 +102,32 @@
                     <tr>
                         <div class="col-lg-3">
                             <td>No Telp</td>
-                            <td><input type="text" name="tlp" class="form-control" required="required"></td>
+                            <td><input type="text" name="tlp" class="form-control" required="required" style="padding-bottom: 10px;"></td>
                         </div>
                     </tr>
-                    <tr>
-                        <div class="col-lg-3">
-                            <td>No Telp Darurat</td>
-                            <td><input type="text" name="darurat" class="form-control" required="required"></td>
-                        </div>
-                    </tr>
+                    <td>
+                        <tr>
+                            <div class="col-lg-3">
+                                <td>No Telp Darurat</td>
+                                <td><input type="text" name="darurat" class="form-control" required="required"></td>
+                            </div>
+                        </tr>
+                    </td>
 
             </table>
 
             <table width="499">
                 <div class="form-group">
-                    <h3 style="background-color: greyh" align="center">Data Booking</h3>
+                    <h3 style="background-color: grey" align="center">Data Booking</h3>
 
                     <tr>
                         <td>Jalur Pendakian</td>
                         <td>
-                            <select id="pilih" name="pilih" onchange="changeValue(this.value) " required="required">
-                                <option disabled="" selected="">Pilih</option>
-                                <?php
-                                $sql = mysqli_query($conn, "SELECT * FROM harga");
-                                $jsArray = "var prdName = new Array();\n";
-                                while ($data = mysqli_fetch_array($sql)) {
-
-                                    echo '<option value="' . $data['jalur'] . '">' . $data['jalur'] . '</option> ';
-                                    $jsArray .= "prdName['" . $data['jalur'] . "'] = {harga:'" . addslashes($data['price']) . "'};\n";
-                                }
-                                ?>
+                            <select id="id_jalur" name="id_jalur" onchange="pilih_jalur()" required="required">
+                                <option disabled="" selected="">--Pilih Jalur Pendakian--</option>
+                                <?php foreach ($datajalur as $jalur) { ?>
+                                    <option value="<?php echo $jalur['id_jalur']; ?>"><?php echo $jalur['jalur']; ?></option>
+                                <?php } ?>
                             </select>
                         </td>
                     </tr>
@@ -146,70 +147,95 @@
                     </tr>
                     <tr>
                         <div class="col-lg-3">
-                            <td>Total Harga</td>
-                            <td><input type="text" step="any" min="0" name="tharga" id="tharga" value="0" class="form-control" readonly></td>
+                            <td>Total Harga (Rp)</td>
+                            <td><input type="text" step="any" min="0" name="tharga_rp" id="tharga_rp" value="Rp 0" class="form-control" readonly></td>
                         </div>
                     </tr>
-
                 </div>
             </table>
             <br>
             <br>
 
-            <tr><u><b> Syarat dan ketentuan </b></u></tr>
+            <u><b> Syarat dan ketentuan </b></u>
             <br>
-            <tr>1. Lakukan pembayaran melalui bank yang tertera di E-Ticket sebelum waktu pendakian</tr></br>
-            <tr>2. Melakukan Re-Register di pos Simaksi dengan membawa E-Ticket dan bukti pembayaran</tr>
+            1. Lakukan pembayaran melalui bank yang tertera di E-Ticket sebelum waktu pendakian</br>
+            2. Melakukan Re-Register di pos Simaksi dengan membawa E-Ticket dan bukti pembayaran
             <br>
-            <tr>3. Pendaki di larang membawa barang barang sebagai berikut :</tr></br>
+            3. Pendaki di larang membawa barang barang sebagai berikut :</br>
             <li> Tissue Basah</li>
             <li> Obat Obatan Terlarang</li>
             <li> Minuman Keras</li>
             <li> zat kimia lainnya </li>
             <tr>4. Membawa obat obatan pribadi</tr>
             <br>
-            <tr>5. Dilarang membuang sampah semabarangan dan membawa kembali sampah ke bank sampah</tr></br>
-            <tr>6. Dilarang memberi makan satwa</tr>
+            5. Dilarang membuang sampah semabarangan dan membawa kembali sampah ke bank sampah</br>
+            6. Dilarang memberi makan satwa
             <br>
-            <tr>7. Dilarang memetik flora yang ada di gunung merbabu</tr></br>
+            7. Dilarang memetik flora yang ada di gunung merbabu</br>
             </br>
             </br>
             <br>
             <button type="submit" name="submitbooking" class="btn btn-primary" align="center">Submit</button>
             <th>
-                <a href="<?php echo base_url('web') ?>" class="btn btn-danger" type="submit">Kembali</a>
+                <a href="<?= base_url('web') ?>" class="btn btn-danger" type="submit">Kembali</a>
+
             </th>
             </br>
-
-    </div>
-
-
-
-    </form>
-    </div>
+        </form>
     </div>
     <script type="text/javascript">
-        <?php echo $jsArray; ?>
+        function pilih_jalur() {
+            var $id_jalur = $("#id_jalur").val();
+            $.ajax({
+                url: "<?php echo base_url() ?>index.php/booking/pilih_harga",
+                data: "id_jalur=" + $id_jalur,
+                method: 'post',
+                dataType: 'json',
+                success: function(data) {
+                    $("#harga").val(data.price_j);
+                    hitungTotalHarga(); // Memanggil fungsi hitungTotalHarga untuk mengupdate total harga
+                }
+            });
+        }
 
-        function changeValue(x) {
-            document.getElementById('harga').value = prdName[x].harga;
-        };
-        $("#harga").keyup(function() {
-            var a = parseInt($("#harga").val());
-            var b = parseInt($("#anggota").val());
-            var c = a * b;
-            $("#total").val(c);
-        });
+        function formatRupiah(angka) {
+            var number_string = angka.toString();
+            var split = number_string.split(',');
+            var sisa = split[0].length % 3;
+            var rupiah = split[0].substr(0, sisa);
+            var ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
-        $("#anggota").keyup(function() {
-            var a = parseInt($("#harga").val());
-            var b = parseInt($("#anggota").val());
-            var c = a * b;
-            $("#tharga").val(c);
-        });
+            if (ribuan) {
+                var separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return 'Rp ' + rupiah;
+        }
+
+        function hitungTotalHarga() {
+            // Mendapatkan nilai dari input harga dan anggota
+            var harga = parseFloat(document.getElementById('harga').value) || 0;
+            var anggota = parseFloat(document.getElementById('anggota').value) || 0;
+
+            // Melakukan perhitungan total harga
+            var totalHarga = harga * anggota;
+
+            // Menampilkan hasil perhitungan di input total harga dalam format mata uang
+            document.getElementById('tharga_rp').value = formatRupiah(totalHarga);
+
+            // Menampilkan hasil perhitungan di input total harga dalam format teks Bahasa Indonesia
+            document.getElementById('tharga_terbilang').value = terbilang(totalHarga) + ' Rupiah';
+        }
+
+        // Memanggil fungsi updateTotalHarga saat nilai input harga atau anggota berubah
+        document.getElementById('harga').addEventListener('input', hitungTotalHarga);
+        document.getElementById('anggota').addEventListener('input', hitungTotalHarga);
+
+        // Memanggil fungsi pilih_jalur() saat jalur berubah
+        document.getElementById('id_jalur').addEventListener('change', pilih_jalur);
     </script>
-
-
 </body>
 
 </html>

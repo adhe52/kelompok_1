@@ -43,7 +43,7 @@
     <header>
         <div class="container">
             <img src="img/merbabu.jpg" alt="" width="60px" height="69px" align="left">
-            <h1><a href="index.html">Taman Nasional Gunung Merbabu</a></h1>
+            <h1>Taman Nasional Gunung Merbabu</h1>
             <ul>
 
                 <li><a href="<?php echo base_url('booking') ?>">Booking Tiket</a></li>

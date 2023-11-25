@@ -39,22 +39,17 @@ defined('BASEPATH') or exit('No direct script allowed');
 
     <div class="wrap" style="background-color:white">
 
-        <form method="POST" style="margin-top: 20px; margin-bottom: 20px;">
+        <form method="POST" action="<?php echo base_url('booking/submit_booking'); ?>" style="margin-top: 20px; margin-bottom: 20px;">
             <table width="682">
                 <div class="form-group">
                     <h3 style="background-color: grey" align="center">Form Identitas Diri</h3>
                     <tr>
                         <td>Kode Booking</td>
                         <td>
-                            <?php foreach ($kd as $data) :
-                                $a = $data['id'];
-                                $hari = date('Ym');
-                                $urutan = (int) substr($a, 6, 3);
-                                $urutan++;
-                                $kd = $hari . sprintf("%03s", $urutan)
-                            ?>
-                                <input type="text" name="unik" value="<?= $kd; ?>" class="form-control" readonly>
-                            <?php endforeach; ?>
+                            <?php if (is_array($kd) && isset($kd['kode_booking'])) : ?>
+                                <input type="text" name="unik" value="<?= $kd['kode_booking']; ?>" class="form-control" readonly>
+                            <?php endif; ?>
+
 
                         </td>
                     </tr>
@@ -126,7 +121,7 @@ defined('BASEPATH') or exit('No direct script allowed');
                             <select id="id_jalur" name="id_jalur" onchange="pilih_jalur()" required="required">
                                 <option disabled="" selected="">--Pilih Jalur Pendakian--</option>
                                 <?php foreach ($datajalur as $jalur) { ?>
-                                    <option value="<?php echo $jalur['id_jalur']; ?>"><?php echo $jalur['jalur']; ?></option>
+                                    <option value="<?php echo $jalur['jalur']; ?>"><?php echo $jalur['jalur']; ?></option>
                                 <?php } ?>
                             </select>
                         </td>

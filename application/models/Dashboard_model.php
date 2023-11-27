@@ -67,6 +67,7 @@ class Dashboard_model extends CI_Model
             'no_telp' => $pendaki['telepon'],
             'tanggal' => $pendaki['tanggal'],
             'jalur' => $pendaki['jalur'],
+            'schedule' => $pendaki['schedule']
         );
 
         $this->db->insert('turun', $data);
@@ -79,6 +80,36 @@ class Dashboard_model extends CI_Model
     }
 
     public function getPendakiById($id)
+    {
+        $this->db->where('id', $id);
+        $query = $this->db->get('naik');
+        return $query->row_array();
+    }
+
+    //Modal
+    public function saveOverlayData($pendaki)
+    {
+        $data = array(
+            'kode' => $pendaki['kode'],
+            'nama' => $pendaki['nama'],
+            'belakang' => $pendaki['belakang'],
+            'nik' => $pendaki['nik'],
+            'no_telp' => $pendaki['telepon'],
+            'tanggal' => $pendaki['tanggal'],
+            'jalur' => $pendaki['jalur'],
+            'schedule' => $pendaki['schedule']
+        );
+
+        $this->db->insert('turun', $data);
+    }
+
+    public function DeleteData($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('naik');
+    }
+
+    public function GetNaikID($id)
     {
         $this->db->where('id', $id);
         $query = $this->db->get('naik');

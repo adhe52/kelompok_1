@@ -132,7 +132,7 @@
                     <td><input type='text' name='nbelakang[]' class='form-control input-small' size='10' required></td>
                     <td><input type='text' name='nik[]' class='form-control input-large' size='15' required></td>
                     <td><input type='text' name='telp[]' class='form-control input-medium' size='15' required></td>
-                    <td><input type='date' name='tanggal[]' class='form-control input-medium' required></td>
+                    <td><input type='date' name='tanggal[]' class='form-control input-medium' required min="<?= date('Y-m-d'); ?>"></td>
                     <td>
                         <select name='lokasi[]' class='form-control input-medium select-dropdown' required>
                             <option value='Selo'>Selo</option>

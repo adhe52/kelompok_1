@@ -77,6 +77,8 @@ class Dashboard extends CI_Controller
         redirect('Dashboard');
     }
 
+
+    // Controller untuk menu pendaki naik
     public function DashboardNaik()
     {
         $data['jml_pendaki_naik'] = $this->Dashboard_model->PendakiNaik();
@@ -113,5 +115,29 @@ class Dashboard extends CI_Controller
 
         // Redirect kembali ke halaman DashboardNaik
         redirect('dashboard/DashboardNaik');
+    }
+    // Contoh implementasi di dalam method handleOverlay
+    public function handleOverStay($id)
+    {
+        die('test');
+        // Ambil data pendaki yang akan di-handle overstay
+        $pendaki = $this->Dashboard_model->getPendakiById($id);
+
+        if ($pendaki) {
+            // Panggil fungsi handleOverStay dari model
+            $this->Dashboard_model->saveTurunData($pendaki);
+        }
+
+        // Redirect kembali ke halaman DashboardNaik
+        redirect('dashboard/DashboardNaik');
+    }
+
+    //Controller untuk form Accident
+
+    public function FormAccident()
+    {
+        $this->load->view('dashboard/header_dashboard');
+        $this->load->view('dashboard/Form_accident');
+        $this->load->view('dashboard/footer_dashboard');
     }
 }

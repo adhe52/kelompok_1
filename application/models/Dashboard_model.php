@@ -115,4 +115,17 @@ class Dashboard_model extends CI_Model
         $query = $this->db->get('naik');
         return $query->row_array();
     }
+    public function getDataByNamaKode($input)
+    {
+        // Gunakan fungsi like() untuk mencari data di database
+        $this->db->like('nama', $input);
+        $this->db->or_like('kode', $input);
+        $result = $this->db->get('naik');
+
+        // Cek hasil query
+        echo $this->db->last_query();
+
+        // Kembalikan data yang ditemukan
+        return $result->result_array();
+    }
 }

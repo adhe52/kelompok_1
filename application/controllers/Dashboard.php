@@ -140,4 +140,14 @@ class Dashboard extends CI_Controller
         $this->load->view('dashboard/Form_accident');
         $this->load->view('dashboard/footer_dashboard');
     }
+    public function ModelAmbil($input)
+
+    {
+        $input = $this->input->post('input');
+
+        // Gantilah dengan logika pengambilan data dari database sesungguhnya
+        $data = $this->Dashboard_model->getDataByNamaKode($input);
+
+        echo json_encode($data);
+    }
 }

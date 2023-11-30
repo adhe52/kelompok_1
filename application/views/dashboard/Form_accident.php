@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="<?= base_url() ?>back/../../plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?= base_url() ?>back/../../dist/css/adminlte.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 </head>
 <section class="content">
     <div class="container-fluid">
@@ -74,19 +76,38 @@
         </div>
         <!-- /.row -->
     </div><!-- /.container-fluid -->
+    <!-- Modifikasi modal -->
     <div class="modal fade" id="ambilDataModal" tabindex="-1" role="dialog" aria-labelledby="ambilDataModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ambilDataModalLabel">Data dari Database</h5>
+                    <h5 class="modal-title" id="ambilDataModalLabel">Ambil Data dari Database</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Tempat untuk menampilkan data dari database -->
-                    <!-- Anda dapat menambahkan tabel atau elemen lain sesuai kebutuhan -->
-                    <div id="dataFromDatabase"></div>
+                    <!-- Input dan Tombol Cari -->
+                    <div class="form-group">
+                        <label for="cariNamaKode">Cari Nama/Kode Booking</label>
+                        <input type="text" class="form-control" name="input" id="cariNamaKode" placeholder="Masukkan Nama/Kode Booking">
+                    </div>
+                    <button type="button" class="btn btn-primary" id="btnCari">Cari</button>
+
+                    <!-- Tabel untuk Menampilkan Data -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Kode Booking</th>
+                                <th>Nama Pendaki</th>
+                                <th>NIK Pendaki</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="tabelDataBody">
+                            <!-- Tempat untuk menampilkan data dari database -->
+                        </tbody>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -94,58 +115,40 @@
             </div>
         </div>
     </div>
-</section>
-<script src="../../plugins/jquery/jquery.min.js"></script>
-<!-- ... (kode lainnya) ... -->
-<script>
-    $(document).ready(function() {
-        // Fungsi untuk menangani klik tombol "Ambil Data"
-        $('#ambilDataModal').on('show.bs.modal', function(event) {
-            // Simulasi pengambilan data dari database (gantilah dengan logika pengambilan data sebenarnya)
-            var dataDariDatabase = {
-                kode: '12345',
-                nama: 'John Doe',
-                nik: '67890',
-                telepon: '08123456789',
-                tanggal: '2023-11-26',
-                schedule: '2023-11-27',
-                jalur: 'Pos 1',
-                checked: true
-            };
+    <script>
+        $(document).ready(function() {
+            // Event handler untuk tombol Cari
+            $('#btnCari').on('click', function() {
+                // Ambil data dari input
+                const input = $('#cariNamaKode').val();
 
-            // Menampilkan data dalam modal
-            var modalBody = $('#ambilDataModal').find('.modal-body');
-            modalBody.html('<p><strong>Kode Booking Pendaki:</strong> ' + dataDariDatabase.kode + '</p>' +
-                '<p><strong>Nama Pendaki:</strong> ' + dataDariDatabase.nama + '</p>' +
-                '<p><strong>NIK Pendaki:</strong> ' + dataDariDatabase.nik + '</p>' +
-                '<p><strong>Telephone Pendaki:</strong> ' + dataDariDatabase.telepon + '</p>' +
-                '<p><strong>Tanggal Mendaki:</strong> ' + dataDariDatabase.tanggal + '</p>' +
-                '<p><strong>Schedule Turun:</strong> ' + dataDariDatabase.schedule + '</p>' +
-                '<p><strong>Pos Turun:</strong> ' + dataDariDatabase.jalur + '</p>' +
-                '<p><strong>Check me out:</strong> ' + (dataDariDatabase.checked ? 'Ya' : 'Tidak') + '</p>');
+                // Panggil fungsi getDataByNamaKode() di controller
+                $.ajax({
+                    url: 'Dashboard/ModelAmbil',
+                    data: {
+                        input: input
+                    },
+                    type: 'post',
+                    success: function(data) {
+                        // Tampilkan data yang ditemukan
+                        const table = $('#tabelDataBody');
+                        table.empty(); // Kosongkan isi tabel sebelum menambahkan data baru
+
+                        for (const row of data) {
+                            const tr = $('<tr>').html(`
+                        <td>${row.kode}</td>
+                        <td>${row.nama}</td>
+                        <td>${row.nik}</td>
+                    `);
+                            table.append(tr);
+                        }
+
+                        // Buka modal
+                        $('#ambilDataModal').modal('show');
+                    }
+                });
+            });
         });
-    });
-</script>
+    </script>
 
-</div>
-<!-- /.row (main row) -->
-</div><!-- /.container-fluid -->
-
-<!-- /.content -->
-</div>
-<!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- bs-custom-file-input -->
-<script src="../../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
-<!-- Page specific script -->
-<script>
-    $(function() {
-        bsCustomFileInput.init();
-    });
-</script>
+</section>

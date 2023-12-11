@@ -107,8 +107,7 @@
                 <tr>
 
                     <th>Kode Booking</th>
-                    <th>Nama Depan</th>
-                    <th>Nama Belakang</th>
+                    <th>Nama Pendaftar</th>
                     <th>No HP</th>
                     <th>Jalur Pendakian</th>
                     <th>Jumlah Anggota</th>
@@ -134,7 +133,6 @@
                         <tr>
                             <td><?php echo $d['kode']; ?></td>
                             <td><?php echo $d['nama_depan']; ?></td>
-                            <td><?php echo $d['nama_belakang']; ?></td>
                             <td><?php echo $d['telp']; ?> </td>
                             <td><?php echo $d['jalur']; ?> </td>
                             <td><?php echo $d['anggota']; ?> </td>
@@ -165,7 +163,7 @@
         </tr>
         <th>
 
-            <b>Rek : 17277710 A/N KELOMPOK 3</b>
+            <b>Rek : 17277710 A/N KELOMPOK 1</b>
 
         </th>
         <br>

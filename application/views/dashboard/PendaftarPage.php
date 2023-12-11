@@ -39,6 +39,24 @@
 
         }
 
+        .form-control {
+            border: none;
+            border-bottom: 2px solid #4CAF50;
+            /* Warna garis bawah saat input aktif */
+            padding: 5px;
+            margin: 2px;
+            background-color: transparent;
+            /* Hapus background agar terlihat lebih bersih */
+            transition: border-bottom 0.3s;
+        }
+
+        .form-control:hover,
+        .form-control:focus {
+            border-bottom: 2px solid #45a049;
+            /* Warna garis bawah saat input di-hover atau aktif */
+        }
+
+
         .btn {
             background-color: #338AFF;
             color: white;
@@ -55,6 +73,25 @@
         }
 
         .btn:hover {
+            background-color: #45a049;
+        }
+
+        .btn-delete {
+            background-color: red;
+            color: white;
+            padding: 8px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 20px;
+            /* Ubah ke nilai yang sesuai */
+            transition: background-color 0.3s;
+            border: none;
+        }
+
+        .btn-delete:hover {
             background-color: #45a049;
         }
     </style>
@@ -84,21 +121,29 @@
         </div>
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Striped Full Width Table</h3>
+                <h3 class="card-title">Daftar Pendaftaran Online</h3>
             </div>
+            <form method="get" action="<?= base_url('dashboard/searchDaftar') ?>">
+                <div class="input-group mb-3">
+                    <input type="text" name="search" class="form-control" placeholder="Cari berdasarkan Kode Pendaftaran">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Cari</button>
+                    </div>
+                </div>
+            </form>
             <!-- /.card-header -->
             <div class="card-body p-0">
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th style="width: 40px">no</th>
-                            <th style="width: 40px">Kode Booking</th>
-                            <th style="width: 40px">Nama Depan</th>
-                            <th style="width: 40px">Nama Belakang</th>
-                            <th style="width: 40px">NIK</th>
-                            <th style="width: 40px">Jumlah Anggota</th>
-                            <th style="width: 40px">Jalur Pendakian</th>
-                            <th style="width: 40px">Action</th>
+                            <th style="width: 120px">Kode Booking</th>
+                            <th style="width: 150px">Nama Pendaki</th>
+                            <th style="width: 70px">NIK</th>
+                            <th style="width: 70px">Telepon</th>
+                            <th style="width: 70px">Jumlah Anggota</th>
+                            <th style="width: 120px">Jalur Pendakian</th>
+                            <th style="width: 150px">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -109,12 +154,14 @@
                                 <td><?= $no++ ?></td>
                                 <td><?= $p['kode'] ?></td>
                                 <td><?= $p['nama_depan'] ?></td>
-                                <td><?= $p['nama_belakang'] ?></td>
                                 <td><?= $p['nik'] ?></td>
+                                <td><?= $p['telp'] ?></td>
                                 <td><?= $p['anggota'] ?></td>
                                 <td><?= $p['jalur'] ?></td>
                                 <td>
-                                    <button id="checkInBtn_<?= $p['kode'] ?>" class="btn btn-primary check-in-btn" data-kode="<?= $p['kode'] ?>" onclick="handleCheckIn(this)">Check In</button>
+                                    <button id="checkInBtn_<?= $p['id'] ?>" class="btn btn-primary check-in-btn" data-kode="<?= $p['id'] ?>" onclick="handleCheckIn(this)">Check In</button>
+                                    <button class="btn-delete " onclick="handleDelete('<?= $p['id'] ?>')">Hapus</button>
+
                                 </td>
                             </tr>
                         <?php
@@ -134,40 +181,49 @@
 </div>
 <!-- /.row (main row) -->
 </div><!-- /.container-fluid -->
-</section>
+
 <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-<script src="assetss/vendor/jquery/jquery.min.js"></script>
-<script src="assetss/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<?= base_url() ?>assetss/vendor/jquery/jquery.min.js"></script>
+<script src="<?= base_url() ?>assetss/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="assetss/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="<?= base_url() ?>assetss/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="assetss/js/sb-admin-2.min.js"></script>
+<script src="<?= base_url() ?>assetss/js/sb-admin-2.min.js"></script>
 <script>
     function handleCheckIn(button) {
         var kodePendaftar = button.getAttribute('data-kode');
 
-        // Cek apakah cookie sudah ada (tombol pernah diklik sebelumnya)
-        var isButtonClicked = document.cookie.indexOf('checkInClicked_' + kodePendaftar) !== -1;
+        // Tambahkan AJAX request untuk menghapus data dari database
+        $.ajax({
+            type: "POST",
+            url: "<?= base_url() ?>Dashboard/daftar/" + kodePendaftar,
+            success: function(response) {
+                // Handle response dari server setelah menghapus data
+                console.log(response);
 
-        if (!isButtonClicked) {
-            // Menambahkan kelas untuk mengubah warna tombol menjadi merah
-            button.classList.add('red-button');
+                // Mengarahkan ke halaman regisulang.php dengan parameter kode
+                window.location.href = '<?= base_url() ?>Dashboard/Simaksi?kode=' + kodePendaftar;
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
 
-            // Menonaktifkan tombol setelah diklik (opsional)
-            button.disabled = true;
 
-            // Set cookie untuk menandai bahwa tombol ini sudah diklik
-            document.cookie = 'checkInClicked_' + kodePendaftar + '=true';
-
-            // Mengarahkan ke halaman regisulang.php dengan parameter kode
-            window.location.href = '<?= base_url() ?>Dashboard/Simaksi?kode=' + kodePendaftar;
-        } else {
-            // Tombol sudah diklik sebelumnya, lakukan tindakan yang sesuai
-            alert("Anda sudah melakukan Check In sebelumnya.");
-        }
+    function handleDelete(kode) {
+        // Tambahkan logika AJAX untuk penghapusan data
+        $.ajax({
+            type: "POST",
+            url: "<?= base_url() ?>Dashboard/hapus/" + kode,
+            success: function(response) {
+                // Setelah penghapusan berhasil, perbarui tampilan atau reload halaman
+                location.reload();
+            }
+        });
     }
 </script>

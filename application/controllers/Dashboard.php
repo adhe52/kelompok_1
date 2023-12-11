@@ -13,12 +13,13 @@ class Dashboard extends CI_Controller
         $data['jml_pendaftar'] = $this->Dashboard_model->DaftarOnline();
         $data['jml_pendaki_naik'] = $this->Dashboard_model->PendakiNaik();
         $data['all_pendaftar'] = $this->Dashboard_model->GetAllPendaftar();
+        $data['jml_pendaki_turun'] = $this->Dashboard_model->PendakiTurun();
 
         $this->load->view('dashboard/header_dashboard');
         $this->load->view('dashboard/body_admin', $data);
         $this->load->view('dashboard/footer_dashboard');
     }
-
+    //Dashboard khusus menu pendaftaran Online
     public function PendaftarPages()
     {
         $data['jml_pendaftar'] = $this->Dashboard_model->DaftarOnline();
@@ -29,6 +30,44 @@ class Dashboard extends CI_Controller
         $this->load->view('dashboard/footer_dashboard');
     }
 
+    public function daftar($id)
+    {
+        // Hapus data pendaki dari tabel booking
+        $deleted = $this->Dashboard_model->deletependaftar($id);
+
+        if ($deleted) {
+            // Redirect kembali ke halaman DashboardNaik jika penghapusan berhasil
+            redirect('dashboard/PendaftarPages');
+        } else {
+            // Handle kesalahan jika penghapusan gagal
+            echo 'Gagal menghapus data pendaki.';
+        }
+    }
+
+
+    public function hapus($id)
+    {
+        try {
+            $this->Dashboard_model->deletependaftar($id);
+            // Redirect kembali ke halaman DashboardNaik
+            redirect('dashboard/PendaftarPages');
+        } catch (Exception $e) {
+            // Tangkap pesan kesalahan dan tampilkan (opsional)
+            echo 'Error: ' . $e->getMessage();
+        }
+    }
+    public function searchDaftar()
+    {
+        $search = $this->input->get('search');
+
+        $data['all_pendaftar'] = $this->Dashboard_model->SearchPendaftar($search);
+
+        $this->load->view('dashboard/header_dashboard');
+        $this->load->view('dashboard/PendaftarPage', $data);
+        $this->load->view('dashboard/footer_dashboard');
+    }
+
+    //Dashboard khusus menu simaksi dan input form
     public function Simaksi()
     {
         $this->load->view('dashboard/header_dashboard');
@@ -63,7 +102,7 @@ class Dashboard extends CI_Controller
         $jum = $this->input->post('jum');
         $kode_pendaki = $this->input->post('kode_booking');
         $nama = $this->input->post('nama');
-        $nbelakang = $this->input->post('nbelakang');
+
         $ktp = $this->input->post('nik');
         $tlp = $this->input->post('telp');
         $tanggal = $this->input->post('tanggal');
@@ -71,7 +110,7 @@ class Dashboard extends CI_Controller
         $schedule = $this->input->post('schedule');
 
         $this->load->model('Dashboard_model');
-        $this->Dashboard_model->saveFormData($jum, $kode_pendaki, $nama, $nbelakang, $ktp, $tlp, $tanggal, $jalurdaki, $schedule);
+        $this->Dashboard_model->saveFormData($jum, $kode_pendaki, $nama, $ktp, $tlp, $tanggal, $jalurdaki, $schedule);
 
         // Tambahkan logika atau redirect ke halaman lain jika diperlukan
         redirect('Dashboard');
@@ -79,6 +118,7 @@ class Dashboard extends CI_Controller
 
 
     // Controller untuk menu pendaki naik
+
     public function DashboardNaik()
     {
         $data['jml_pendaki_naik'] = $this->Dashboard_model->PendakiNaik();
@@ -116,6 +156,27 @@ class Dashboard extends CI_Controller
         // Redirect kembali ke halaman DashboardNaik
         redirect('dashboard/DashboardNaik');
     }
+
+    public function handleAccident($id)
+    {
+        // Ambil data pendaki yang akan di-handle accident
+        $pendaki = $this->Dashboard_model->getPendakiById($id);
+        $status = $this->input->post('status');
+
+        if ($pendaki) {
+            // Masukkan data pendaki ke dalam tabel accident dengan menyertakan nilai status
+            $pesanNotifikasi = $this->Dashboard_model->saveAccident($pendaki, $status);
+            // Tampilkan notifikasi jika pesan notifikasi tidak kosong
+            if (!empty($pesanNotifikasi)) {
+                $this->session->set_flashdata('notification', $pesanNotifikasi);
+            }
+        }
+
+        // Redirect kembali ke halaman DashboardNaik
+        redirect('dashboard/DashboardNaik');
+    }
+
+
     // Contoh implementasi di dalam method handleOverlay
     public function handleOverStay($id)
     {
@@ -140,14 +201,24 @@ class Dashboard extends CI_Controller
         $this->load->view('dashboard/Form_accident');
         $this->load->view('dashboard/footer_dashboard');
     }
-    public function ModelAmbil($input)
 
+    //Controller Halaman Pendaki Turun
+    public function DashboardTurun()
     {
-        $input = $this->input->post('input');
+        $data['jml_pendaki_turun'] = $this->Dashboard_model->PendakiTurun();
+        $data['PendakiNaik'] = $this->Dashboard_model->GetAllTurun();
 
-        // Gantilah dengan logika pengambilan data dari database sesungguhnya
-        $data = $this->Dashboard_model->getDataByNamaKode($input);
+        $this->load->view('dashboard/header_dashboard');
+        $this->load->view('dashboard/body_turun', $data);
+        $this->load->view('dashboard/footer_dashboard');
+    }
 
-        echo json_encode($data);
+    // Controller Kelompok
+
+    public function Kelompok()
+    {
+        $this->load->view('dashboard/header_dashboard');
+        $this->load->view('dashboard/kelompok');
+        $this->load->view('dashboard/footer_dashboard');
     }
 }

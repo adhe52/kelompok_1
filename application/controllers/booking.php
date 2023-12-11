@@ -53,7 +53,6 @@ class Booking extends CI_Controller
             $data = array(
                 'kode' => $this->input->post('unik'),
                 'nama_depan' => $this->input->post('depan'),
-                'nama_belakang' => $this->input->post('belakang'),
                 'nik' => $this->input->post('nik'),
                 'alamat' => $this->input->post('alamat'),
                 'jenis_kelamin' => $this->input->post('kelamin'),

@@ -17,11 +17,11 @@
                 <div class="card card-primary">
 
                     <div class="card-header">
-                        <h3 class="card-title">Quick Example</h3>
+                        <h3 class="card-title">Isi data pendaki</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form>
+                    <form method="post" action="<?= base_url('Dashboard/FormAccident') ?>">
                         <div class="card-body">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
@@ -53,21 +53,27 @@
                                     <input type="date" class="form-control" id="schedule" name="schedule" placeholder="Password">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Pos Turun</label>
-                                <input type="password" class="form-control col-md-6" id="jalur" name="jalur" placeholder="Password">
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputPassword1">Pos Turun</label>
+                                    <input type="password" class="form-control " id="jalur" name="jalur" placeholder="Password">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="exampleInputPassword1">Status Accident</label>
+                                    <select name="status" class="form-control">
+                                        <option value="None">--Pilih Status Accident--</option>
+                                        <option value="Turun">Sakit</option>
+                                        <option value="Sakit">Meninggal</option>
+                                        <option value="Hilang">Hilang</option>
+                                    </select>
+
+                                </div>
                             </div>
                         </div>
                         <!-- /.card-body -->
 
                         <div class="card-footer">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ambilDataModal">
-                                Ambil Data
-                            </button>
+
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
@@ -77,78 +83,10 @@
         <!-- /.row -->
     </div><!-- /.container-fluid -->
     <!-- Modifikasi modal -->
-    <div class="modal fade" id="ambilDataModal" tabindex="-1" role="dialog" aria-labelledby="ambilDataModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ambilDataModalLabel">Ambil Data dari Database</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- Input dan Tombol Cari -->
-                    <div class="form-group">
-                        <label for="cariNamaKode">Cari Nama/Kode Booking</label>
-                        <input type="text" class="form-control" name="input" id="cariNamaKode" placeholder="Masukkan Nama/Kode Booking">
-                    </div>
-                    <button type="button" class="btn btn-primary" id="btnCari">Cari</button>
-
-                    <!-- Tabel untuk Menampilkan Data -->
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Kode Booking</th>
-                                <th>Nama Pendaki</th>
-                                <th>NIK Pendaki</th>
-
-                            </tr>
-                        </thead>
-                        <tbody id="tabelDataBody">
-                            <!-- Tempat untuk menampilkan data dari database -->
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        $(document).ready(function() {
-            // Event handler untuk tombol Cari
-            $('#btnCari').on('click', function() {
-                // Ambil data dari input
-                const input = $('#cariNamaKode').val();
-
-                // Panggil fungsi getDataByNamaKode() di controller
-                $.ajax({
-                    url: 'Dashboard/ModelAmbil',
-                    data: {
-                        input: input
-                    },
-                    type: 'post',
-                    success: function(data) {
-                        // Tampilkan data yang ditemukan
-                        const table = $('#tabelDataBody');
-                        table.empty(); // Kosongkan isi tabel sebelum menambahkan data baru
-
-                        for (const row of data) {
-                            const tr = $('<tr>').html(`
-                        <td>${row.kode}</td>
-                        <td>${row.nama}</td>
-                        <td>${row.nik}</td>
-                    `);
-                            table.append(tr);
-                        }
-
-                        // Buka modal
-                        $('#ambilDataModal').modal('show');
-                    }
-                });
-            });
-        });
-    </script>
-
 </section>
+</div>
+<!-- /.row (main row) -->
+</div><!-- /.container-fluid -->
+
+<!-- /.content -->
+</div>

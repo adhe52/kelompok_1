@@ -36,14 +36,14 @@
                 <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>44</h3>
+                        <h3><?= isset($jml_pendaki_turun[0]['JumlahTurun']) ? $jml_pendaki_turun[0]['JumlahTurun'] : '0' ?><sup style="font-size: 20px"></sup></h3>
 
-                        <p>User Registrations</p>
+                        <p>Pendaki Turun</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="<?= base_url('Dashboard/DashboardTurun') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->

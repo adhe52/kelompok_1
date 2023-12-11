@@ -56,15 +56,12 @@ defined('BASEPATH') or exit('No direct script allowed');
 
                     <tr>
                         <div class="col-lg-3">
-                            <td>Nama Depan </td>
+                            <td>Nama Pendaftar </td>
                             <td><input type="text" name="depan" class="form-control" required="required"></td>
                         </div>
                     </tr>
                     <tr>
-                        <div class="col-lg-3">
-                            <td>Nama Belakang</td>
-                            <td><input type="text" name="belakang" class="form-control"></td>
-                        </div>
+
                     </tr>
                     <tr>
                         <div class="col-lg-3">

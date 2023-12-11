@@ -170,15 +170,15 @@
                         <tr bgcolor="#eee"><b>
                                 <th>No</th>
                                 <th>Kode Pendakian</th>
-                                <th>Nama Depan</th>
-                                <th>Nama Belakang</th>
+                                <th>Nama </th>
                                 <th>NIK</th>
-                                <th>No Telepohone</th>
-                                <th>Tanggal Pendakian</th>
-                                <th>Jalur Pendakian</th>
-                                <th>Schedule Turun</th>
-
-                                <td>Action</td>
+                                <th>No HP</th>
+                                <th>Tgl Mendaki</th>
+                                <th>Jalur</th>
+                                <th>Tgl Turun</th>
+                                <th>Action</th>
+                                <th>Status</th>
+                                <th>Accident</th>
                             </b>
                         </tr>
 
@@ -195,9 +195,7 @@
                                 <td>
                                     <input type="text" name="nama" value="<?= $p['nama'] ?>" size="5" readonly class="form-control">
                                 </td>
-                                <td>
-                                    <input type="text" name="belakang" value="<?= $p['belakang'] ?>" size="5" readonly class="form-control">
-                                </td>
+
                                 <td>
                                     <input type="text" name="nik" value="<?= $p['nik'] ?>" size="9" readonly class="form-control">
                                 </td>
@@ -224,30 +222,48 @@
                                         // Tampilkan tombol Check Out dengan warna merah
                                         echo '<form method="post" action="' . base_url("dashboard/checkOut/{$p['id']}") . '">';
                                         echo '<input type="hidden" name="idm" value="' . $p['id'] . '">';
-                                        echo '<button type="submit" class="btn-turun-modal btn-turun-merah" name="turuntombol")>Check Out</button>';
+                                        echo '<button type="submit" class="btn-turun-modal btn-turun-merah" name="turuntombol">Turun</button>';
                                         echo '</form>';
                                     } else {
                                         // Jika belum melewati, gunakan tombol Check Out biasa
                                         echo '<form method="post" action="' . base_url("dashboard/checkOut/{$p['id']}") . '">';
                                         echo '<input type="hidden" name="idm" value="' . $p['id'] . '">';
-                                        echo '<button type="submit" class="btn-turun btn-primary" name="turuntombol">Check Out</button>';
+                                        echo '<button type="submit" class="btn-turun btn-primary" name="turuntombol">Turun</button>';
                                         echo '</form>';
                                     }
                                     ?>
+                                </td>
+                                <td>
+                                    <form method="post" action="<?= base_url("dashboard/handleAccident/{$p['id']}") ?>">
+                                        <input type="hidden" name="idm" value="<?= $p['id'] ?>">
+                                        <select name="status" class="form-control">
+                                            <option value="Turun">Sakit</option>
+                                            <option value="Sakit">Meninggal</option>
+                                            <option value="Hilang">Hilang</option>
+                                        </select>
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn-turun-merah btn-danger" name="accidenttombol">Accident</button>
+                                    </form>
+                                </td>
+                            </tr>
             </div>
-            </td>
-            </td>
-            </tr>
+
+
         <?php
                         }
         ?>
+
         </tbody>
         </table>
         </div>
         <!-- /.card-body -->
     </div>
     </div>
+
 </section>
+
+
 
 
 </div>

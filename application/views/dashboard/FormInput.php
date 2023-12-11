@@ -116,8 +116,8 @@
         <table class="table table-bordered table-hover">
             <tr bgcolor="#eee">
                 <th width="50">kode</th>
-                <th width="100">Nama Depan</th>
-                <th width="100">Nama Belakang</th>
+                <th width="100">Nama Pendaki</th>
+
                 <th width="150">NIK</th>
                 <th width="100">No Telephone</th>
                 <th width="50">Tanggal Pendakian</th>
@@ -129,7 +129,7 @@
                 <tr>
                     <td><input type='text' name='kode_booking[]' class='form-control input-medium' size='10' required></td>
                     <td><input type='text' name='nama[]' class='form-control input-small' size='10' required></td>
-                    <td><input type='text' name='nbelakang[]' class='form-control input-small' size='10' required></td>
+
                     <td><input type='text' name='nik[]' class='form-control input-large' size='15' required></td>
                     <td><input type='text' name='telp[]' class='form-control input-medium' size='15' required></td>
                     <td><input type='date' name='tanggal[]' class='form-control input-medium' required min="<?= date('Y-m-d'); ?>"></td>

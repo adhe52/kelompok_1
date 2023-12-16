@@ -100,11 +100,27 @@ class Dashboard_model extends CI_Model
 
     public function searchPendakiNaik($search)
     {
+        $this->db->group_start();
         $this->db->like('kode', $search);
+        $this->db->or_like('nama', $search);
+        $this->db->group_end();
+
         $query = $this->db->get('naik');
 
         return $query->result_array();
     }
+    public function searchpendakiturun($search)
+    {
+        $this->db->group_start();
+        $this->db->like('kode', $search);
+        $this->db->or_like('nama', $search);
+        $this->db->group_end();
+
+        $query = $this->db->get('turun');
+
+        return $query->result_array();
+    }
+
     public function saveTurunData($pendaki)
     {
         $data = array(
@@ -137,6 +153,10 @@ class Dashboard_model extends CI_Model
 
         return 'Data pendaki berhasil disimpan.';
     }
+    public function insertAccident($data)
+    {
+        $this->db->insert('accident', $data);
+    }
 
 
 
@@ -151,5 +171,27 @@ class Dashboard_model extends CI_Model
         $this->db->where('id', $id);
         $query = $this->db->get('naik');
         return $query->row_array();
+    }
+
+    function GetAllAccident()
+    {
+        $result = $this->db->get('accident');
+        return $result->result_array();
+    }
+    function PendakiAccident()
+    {
+        $turun = $this->db->query("SELECT COUNT(*) as JumlahTurun FROM accident");
+        return $turun->result_array();
+    }
+    public function searchpendakiaccident($search)
+    {
+        $this->db->group_start();
+        $this->db->like('kode', $search);
+        $this->db->or_like('nama', $search);
+        $this->db->group_end();
+
+        $query = $this->db->get('accident');
+
+        return $query->result_array();
     }
 }

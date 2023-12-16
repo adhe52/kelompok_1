@@ -104,6 +104,15 @@
             /* Warna latar saat tombol di-hover */
         }
     </style>
+    <script>
+        // Fungsi untuk menyembunyikan notifikasi setelah 10 detik
+        function hideNotification() {
+            $(".alert").fadeOut(500); // Fade out selama 1 detik
+        }
+
+        // Panggil fungsi hideNotification setelah 10 detik (10000 milidetik)
+        setTimeout(hideNotification, 500);
+    </script>
 
     </styl.checkout>
     <script>
@@ -156,6 +165,11 @@
                 <h3 class="card-title">Daftar Pendaki Naik</h3>
             </div>
             <form method="get" action="<?= base_url('dashboard/searchNaik') ?>">
+                <?php
+                if ($this->session->flashdata('success')) {
+                    echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
+                }
+                ?>
                 <div class="input-group mb-3">
                     <input type="text" name="search" class="form-control" placeholder="Cari berdasarkan Kode Pendakian">
                     <div class="input-group-append">
@@ -235,10 +249,11 @@
                                 </td>
                                 <td>
                                     <form method="post" action="<?= base_url("dashboard/handleAccident/{$p['id']}") ?>">
+
                                         <input type="hidden" name="idm" value="<?= $p['id'] ?>">
                                         <select name="status" class="form-control">
                                             <option value="Turun">Sakit</option>
-                                            <option value="Sakit">Meninggal</option>
+                                            <option value="Meninggal">Meninggal</option>
                                             <option value="Hilang">Hilang</option>
                                         </select>
                                 </td>

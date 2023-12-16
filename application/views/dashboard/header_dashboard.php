@@ -154,20 +154,18 @@
                                         <p>Form Accident</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="<?= base_url('Dashboard/DashboardAccident') ?>" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Dashboard Accident</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="pages/widgets.html" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Widgets
 
-                                </p>
-                            </a>
-                        </li>
                         <li class="nav-item">
-                            <a href="pages/widgets.html" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                            <a href="<?= base_url('Dashboard/regis') ?>" class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
                                 <p>
                                     Registasi Akun
 
@@ -176,7 +174,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="<?= base_url('Dashboard/kelompok') ?>" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
+                                <i class="nav-icon far fa-image"></i>
                                 <p>
                                     Anggota Kelompok
 

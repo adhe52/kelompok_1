@@ -115,7 +115,7 @@
         <div class="row">
             <div class="col-lg-3 col-6">
                 <!-- small box -->
-                <div class="small-box bg-warning">
+                <div class="small-box bg-danger">
                     <div class="inner">
                         <h3> <?= isset($jml_pendaki_turun[0]['JumlahTurun']) ? $jml_pendaki_turun[0]['JumlahTurun'] : '0' ?><sup style="font-size: 20px"></sup> Orang</h3>
                         <p>Pendaki Turun</p>
@@ -134,7 +134,7 @@
             <div class="card-header">
                 <h3 class="card-title">Daftar Pendaki Turun</h3>
             </div>
-            <form method="get" action="<?= base_url('Dashboard/searchturun') ?>">
+            <form method="get" action="<?= base_url('dashboard/searchaccident') ?>">
                 <?php
                 if ($this->session->flashdata('success')) {
                     echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
@@ -160,7 +160,7 @@
                                 <th>Tgl Mendaki</th>
                                 <th>Jalur</th>
                                 <th>schedule Turun</th>
-                                <th>Tanggal Turun</th>
+                                <th>Status</th>
 
 
                             </b>
@@ -184,7 +184,7 @@
                                     <input type="text" name="nik" value="<?= $p['nik'] ?>" size="9" readonly class="form-control">
                                 </td>
                                 <td>
-                                    <input type="text" name="telp" value="<?= $p['no_telp'] ?>" size="5" readonly class="form-control">
+                                    <input type="text" name="telp" value="<?= $p['telp'] ?>" size="5" readonly class="form-control">
                                 </td>
                                 <td>
                                     <input type="text" name="tanggal" value="<?= $p['tanggal'] ?>" size="3" readonly class="form-control">
@@ -196,7 +196,7 @@
                                     <input type="text" name="schedule" value="<?= $p['schedule'] ?>" size="3" readonly class="form-control">
                                 </td>
                                 <td>
-                                    <input type="text" name="schedule" value="<?= $p['tanggal_turun'] ?>" size="3" readonly class="form-control">
+                                    <input type="text" name="schedule" value="<?= $p['status'] ?>" size="3" readonly class="form-control">
                                 </td>
 
 

@@ -6,6 +6,15 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="<?= base_url() ?>back/../../dist/css/adminlte.min.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        // Fungsi untuk menyembunyikan notifikasi setelah 10 detik
+        function hideNotification() {
+            $(".alert").fadeOut(500); // Fade out selama 1 detik
+        }
+
+        // Panggil fungsi hideNotification setelah 10 detik (10000 milidetik)
+        setTimeout(hideNotification, 500);
+    </script>
 
 </head>
 <section class="content">
@@ -21,7 +30,13 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form method="post" action="<?= base_url('Dashboard/FormAccident') ?>">
+                    <form method="post" action="<?= base_url('Dashboard/SaveAccident') ?>">
+                        <!-- Tampilkan notifikasi jika ada -->
+                        <?php
+                        if ($this->session->flashdata('success')) {
+                            echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
+                        }
+                        ?>
                         <div class="card-body">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
@@ -56,14 +71,14 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputPassword1">Pos Turun</label>
-                                    <input type="password" class="form-control " id="jalur" name="jalur" placeholder="Password">
+                                    <input type="text" class="form-control " id="jalur" name="jalur" placeholder="Masukan Jalur">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputPassword1">Status Accident</label>
                                     <select name="status" class="form-control">
                                         <option value="None">--Pilih Status Accident--</option>
                                         <option value="Turun">Sakit</option>
-                                        <option value="Sakit">Meninggal</option>
+                                        <option value="Meninggal">Meninggal</option>
                                         <option value="Hilang">Hilang</option>
                                     </select>
 

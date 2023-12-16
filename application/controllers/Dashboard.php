@@ -171,6 +171,7 @@ class Dashboard extends CI_Controller
                 $this->session->set_flashdata('notification', $pesanNotifikasi);
             }
         }
+        $this->session->set_flashdata('success', 'Data berhasil disimpan.');
 
         // Redirect kembali ke halaman DashboardNaik
         redirect('dashboard/DashboardNaik');
@@ -202,11 +203,40 @@ class Dashboard extends CI_Controller
         $this->load->view('dashboard/footer_dashboard');
     }
 
+    public function SaveAccident()
+    {
+        $data = array(
+            'kode' => $this->input->post('kode'),
+            'nama' => $this->input->post('nama'),
+            'nik' => $this->input->post('nik'),
+            'telp' => $this->input->post('telepon'),
+            'tanggal' => $this->input->post('tanggal'),
+            'schedule' => $this->input->post('schedule'),
+            'jalur' => $this->input->post('jalur'),
+            'status' => $this->input->post('status')
+        );
+
+        $this->Dashboard_model->insertAccident($data);
+        $this->session->set_flashdata('success', 'Data berhasil disimpan.');
+
+        redirect('Dashboard/FormAccident'); // Ganti 'your_redirect_page' dengan halaman tujuan setelah menyimpan data
+    }
+
     //Controller Halaman Pendaki Turun
     public function DashboardTurun()
     {
         $data['jml_pendaki_turun'] = $this->Dashboard_model->PendakiTurun();
         $data['PendakiNaik'] = $this->Dashboard_model->GetAllTurun();
+
+        $this->load->view('dashboard/header_dashboard');
+        $this->load->view('dashboard/body_turun', $data);
+        $this->load->view('dashboard/footer_dashboard');
+    }
+    public function searchturun()
+    {
+        $search = $this->input->get('search');
+
+        $data['PendakiNaik'] = $this->Dashboard_model->searchpendakiturun($search);
 
         $this->load->view('dashboard/header_dashboard');
         $this->load->view('dashboard/body_turun', $data);
@@ -219,6 +249,35 @@ class Dashboard extends CI_Controller
     {
         $this->load->view('dashboard/header_dashboard');
         $this->load->view('dashboard/kelompok');
+        $this->load->view('dashboard/footer_dashboard');
+    }
+
+    //Controller Halaman Accident
+    public function DashboardAccident()
+
+    {
+        $data['jml_pendaki_turun'] = $this->Dashboard_model->PendakiAccident();
+        $data['PendakiNaik'] = $this->Dashboard_model->GetAllAccident();
+        $this->load->view('dashboard/header_dashboard');
+        $this->load->view('dashboard/body_accident', $data);
+        $this->load->view('dashboard/footer_dashboard');
+    }
+
+    //Controller Halaman Accident
+    public function Regis()
+    {
+        $this->load->view('dashboard/header_dashboard');
+        $this->load->view('dashboard/body_regis');
+        $this->load->view('dashboard/footer_dashboard');
+    }
+    public function searchaccident()
+    {
+        $search = $this->input->get('search');
+
+        $data['PendakiNaik'] = $this->Dashboard_model->searchpendakiaccident($search);
+
+        $this->load->view('dashboard/header_dashboard');
+        $this->load->view('dashboard/DashboardAccident', $data);
         $this->load->view('dashboard/footer_dashboard');
     }
 }

@@ -14,6 +14,7 @@ class Dashboard extends CI_Controller
         $data['jml_pendaki_naik'] = $this->Dashboard_model->PendakiNaik();
         $data['all_pendaftar'] = $this->Dashboard_model->GetAllPendaftar();
         $data['jml_pendaki_turun'] = $this->Dashboard_model->PendakiTurun();
+        $data['JmlAccident'] = $this->Dashboard_model->PendakiAccident();
 
         $this->load->view('dashboard/header_dashboard');
         $this->load->view('dashboard/body_admin', $data);
@@ -102,7 +103,6 @@ class Dashboard extends CI_Controller
         $jum = $this->input->post('jum');
         $kode_pendaki = $this->input->post('kode_booking');
         $nama = $this->input->post('nama');
-
         $ktp = $this->input->post('nik');
         $tlp = $this->input->post('telp');
         $tanggal = $this->input->post('tanggal');
@@ -256,7 +256,7 @@ class Dashboard extends CI_Controller
     public function DashboardAccident()
 
     {
-        $data['jml_pendaki_turun'] = $this->Dashboard_model->PendakiAccident();
+        $data['JmlAccident'] = $this->Dashboard_model->PendakiAccident();
         $data['PendakiNaik'] = $this->Dashboard_model->GetAllAccident();
         $this->load->view('dashboard/header_dashboard');
         $this->load->view('dashboard/body_accident', $data);
@@ -279,5 +279,29 @@ class Dashboard extends CI_Controller
         $this->load->view('dashboard/header_dashboard');
         $this->load->view('dashboard/DashboardAccident', $data);
         $this->load->view('dashboard/footer_dashboard');
+    }
+    public function editModal($id)
+    {
+        $this->Dashboard_model->proses_edit_data($id);
+        $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Data berhasil di edit!</div>');
+        redirect('dashboard/DashboardAccident');
+    }
+
+    //Dahsboard Regis
+    public function SaveRegis()
+    {
+        $data = array(
+            'email' => $this->input->post('email'),
+            'password' => $this->input->post('password'),
+            'nama' => $this->input->post('nama'),
+            'nim' => $this->input->post('nim'),
+            'alamat' => $this->input->post('alamat'),
+            'telp' => $this->input->post('telp')
+        );
+
+        $this->Dashboard_model->insertRegis($data);
+        $this->session->set_flashdata('success', 'Data berhasil disimpan.');
+
+        redirect('Dashboard/regis');
     }
 }

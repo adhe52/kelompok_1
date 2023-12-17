@@ -117,8 +117,8 @@
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        <h3> <?= isset($jml_pendaki_turun[0]['JumlahTurun']) ? $jml_pendaki_turun[0]['JumlahTurun'] : '0' ?><sup style="font-size: 20px"></sup> Orang</h3>
-                        <p>Pendaki Turun</p>
+                        <h3> <?= isset($JmlAccident[0]['JumlahAccident']) ? $JmlAccident[0]['JumlahAccident'] : '0' ?><sup style="font-size: 20px"></sup> Orang</h3>
+                        <p>Jumlah Accident</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
@@ -161,6 +161,7 @@
                                 <th>Jalur</th>
                                 <th>schedule Turun</th>
                                 <th>Status</th>
+                                <th>Action</th>
 
 
                             </b>
@@ -198,21 +199,67 @@
                                 <td>
                                     <input type="text" name="schedule" value="<?= $p['status'] ?>" size="3" readonly class="form-control">
                                 </td>
+                                <td>
+                                    <!-- Tombol Edit yang menampilkan modal -->
+
+                                    <a href="#" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal<?= $p['id']; ?>">Edit</a>
+
+                                </td>
 
 
                             </tr>
-            </div>
+                            <div class="modal fade" id="editModal<?= $p['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<?= $p['id']; ?>" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel">Edit Data Pendaki</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <?= form_open_multipart('Dashboard/editModal/' . $p['id']); ?>
+                                            <input type="hidden" name="id" value="<?= $p['id']; ?>">
 
-
-        <?php
+                                            <!-- Isi formulir edit di sini -->
+                                            <div class="form-group">
+                                                <label>Kode Pendakian</label>
+                                                <input type="text" name="kode" class="form-control" value="<?= $p['kode']; ?>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Nama Pendaki</label>
+                                                <input type="text" name="nama" class="form-control" value="<?= $p['nama']; ?>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>NIK Pendaki</label>
+                                                <input type="text" name="nik" class="form-control" value="<?= $p['nik']; ?>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Telepon</label>
+                                                <input type="text" name="telp" class="form-control" value="<?= $p['telp']; ?>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Status</label>
+                                                <input type="text" name="status" class="form-control" value="<?= $p['status']; ?>">
+                                            </div>
+                                            <!-- ... -->
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php
                         }
-        ?>
+                        ?>
 
-        </tbody>
-        </table>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
         </div>
-        <!-- /.card-body -->
-    </div>
     </div>
 </section>
 

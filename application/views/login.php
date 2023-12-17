@@ -43,12 +43,24 @@
                                                         <label for="inputEmailAddress" class="small mb-1"></label>
                                                         <input type="text" name="email" id="email" placeholder="Enter email address" class="form-control py-4" autocomplete="off" value="<?= set_value('email'); ?>">
                                                         <?= form_error('email', '<small class="text-danger pl-3">', '</small>'); ?>
+
+                                                        <?php
+                                                        if ($this->session->flashdata('error')) {
+                                                            echo '<small class="text-danger pl-3">' . $this->session->flashdata('error') . '</small>';
+                                                        }
+                                                        ?>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="inputPassword" class="small mb-1"></label>
                                                         <input type="password" name="password" id="password" placeholder="Enter password" class="form-control py-4" autocomplete="off">
                                                         <?= form_error('password', '<small class="text-danger pl-3">', '</small>'); ?>
+                                                        <?php
+                                                        if ($this->session->flashdata('error')) {
+                                                            echo '<small class="text-danger pl-3">' . $this->session->flashdata('error') . '</small>';
+                                                        }
+                                                        ?>
                                                     </div>
+
                                                     <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                                         <button type="submit" class="btn btn-success w-100" name="login">Login</button>
                                                     </div>

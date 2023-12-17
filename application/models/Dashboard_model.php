@@ -158,6 +158,13 @@ class Dashboard_model extends CI_Model
         $this->db->insert('accident', $data);
     }
 
+    // Save Regis
+
+    public function insertRegis($data)
+    {
+        $this->db->insert('user', $data);
+    }
+
 
 
     public function deleteNaikData($id)
@@ -180,7 +187,7 @@ class Dashboard_model extends CI_Model
     }
     function PendakiAccident()
     {
-        $turun = $this->db->query("SELECT COUNT(*) as JumlahTurun FROM accident");
+        $turun = $this->db->query("SELECT COUNT(*) as JumlahAccident FROM accident");
         return $turun->result_array();
     }
     public function searchpendakiaccident($search)
@@ -193,5 +200,23 @@ class Dashboard_model extends CI_Model
         $query = $this->db->get('accident');
 
         return $query->result_array();
+    }
+    // Model: Dashboard_model.php
+
+    public function ambil_id_accident($id)
+    {
+        return $this->db->get_where('accident', ['id' => $id])->row_array();
+    }
+    public function proses_edit_data($id)
+    {
+        $data = [
+            "kode" => $this->input->post('kode'),
+            "nama" => $this->input->post('nama'),
+            "nik" => $this->input->post('nik'),
+            "telp" => $this->input->post('telp'),
+            "status" => $this->input->post('status')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('accident', $data);
     }
 }

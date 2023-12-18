@@ -209,14 +209,19 @@ class Dashboard_model extends CI_Model
     }
     public function proses_edit_data($id)
     {
-        $data = [
+        $data = array(
+
             "kode" => $this->input->post('kode'),
             "nama" => $this->input->post('nama'),
             "nik" => $this->input->post('nik'),
             "telp" => $this->input->post('telp'),
             "status" => $this->input->post('status')
-        ];
+        );
+        $this->db->set($data);
         $this->db->where('id', $id);
-        $this->db->update('accident', $data);
+        return $this->db->update('accident');
+        // var_dump($this->db->last_query());
+        // die;
+
     }
 }

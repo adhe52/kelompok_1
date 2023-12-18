@@ -141,8 +141,9 @@
                             <th style="width: 150px">Nama Pendaki</th>
                             <th style="width: 70px">NIK</th>
                             <th style="width: 70px">Telepon</th>
-                            <th style="width: 70px">Jumlah Anggota</th>
+                            <th style="width: 50px">Anggota</th>
                             <th style="width: 120px">Jalur Pendakian</th>
+                            <th style="width: 70px">Tgl Pendakian</th>
                             <th style="width: 150px">Action</th>
                         </tr>
                     </thead>
@@ -158,8 +159,10 @@
                                 <td><?= $p['telp'] ?></td>
                                 <td><?= $p['anggota'] ?></td>
                                 <td><?= $p['jalur'] ?></td>
+                                <td><?= $p['tanggal'] ?></td>
                                 <td>
-                                    <button id="checkInBtn_<?= $p['id'] ?>" class="btn btn-primary check-in-btn" data-kode="<?= $p['id'] ?>" onclick="handleCheckIn(this)">Check In</button>
+
+                                    <button id="checkInBtn_<?= $p['id'] ?>" class="btn btn-primary check-in-btn" data-kode="<?= $p['id'] ?>" onclick="handleCheckIn(this, '<?= $p['tanggal'] ?>')">Check In</button>
                                     <button class="btn-delete " onclick="handleDelete('<?= $p['id'] ?>')">Hapus</button>
 
                                 </td>
@@ -194,8 +197,24 @@
 <!-- Custom scripts for all pages-->
 <script src="<?= base_url() ?>assetss/js/sb-admin-2.min.js"></script>
 <script>
-    function handleCheckIn(button) {
+    function handleCheckIn(button, tanggalPendakian) {
         var kodePendaftar = button.getAttribute('data-kode');
+
+        // Mengubah format tanggal menjadi sesuai dengan objek Date di JavaScript (misalnya: YYYY-MM-DD)
+        var formattedTanggal = tanggalPendakian.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$3-$1-$2');
+
+        // Mengambil tanggal pendakian dari baris data terkait
+        var tanggalPendakianDate = new Date(formattedTanggal);
+
+        // Mengambil tanggal saat ini
+        var tanggalSaatIni = new Date();
+
+        // Memeriksa apakah tanggal pendakian sudah melewati tanggal saat ini
+        if (tanggalPendakianDate < tanggalSaatIni) {
+            // Jika ya, ubah warna tombol menjadi merah
+            button.classList.remove('btn-primary');
+            button.classList.add('btn-danger');
+        }
 
         // Tambahkan AJAX request untuk menghapus data dari database
         $.ajax({
@@ -213,6 +232,8 @@
             }
         });
     }
+
+
 
 
     function handleDelete(kode) {

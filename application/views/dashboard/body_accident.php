@@ -170,8 +170,18 @@
                     </thead>
                     <tbody>
                         <?php
+                        // echo "<pre>";
+                        // var_dump($PendakiNaik);
+                        // echo "</pre>";
+                        // die;
+
                         $no = 1;
-                        foreach ($PendakiNaik as $p) { ?>
+                        foreach ($PendakiNaik as $p) {
+
+                            // var_dump($p);
+                            // die;
+                        ?>
+
                             <tr>
                                 <td><?= $no++ ?></td>
                                 <td>
@@ -208,7 +218,7 @@
 
 
                             </tr>
-                            <div class="modal fade" id="editModal<?= $p['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<?= $p['id']; ?>" aria-hidden="true">
+                            <div class="modal fade" id="editModal<?= $p['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -217,37 +227,39 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body">
-                                            <?= form_open_multipart('Dashboard/editModal/' . $p['id']); ?>
-                                            <input type="hidden" name="id" value="<?= $p['id']; ?>">
+                                        <form method="post" action="<?= base_url('Dashboard/editModal') ?>">
+                                            <div class="modal-body">
 
-                                            <!-- Isi formulir edit di sini -->
-                                            <div class="form-group">
-                                                <label>Kode Pendakian</label>
-                                                <input type="text" name="kode" class="form-control" value="<?= $p['kode']; ?>">
+                                                <input type="hidden" name="id" value="<?= $p['id']; ?>">
+
+                                                <!-- Isi formulir edit di sini -->
+                                                <div class="form-group">
+                                                    <label>Kode Pendakian</label>
+                                                    <input type="text" name="kode" class="form-control" value="<?= $p['kode']; ?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Nama Pendaki</label>
+                                                    <input type="text" name="nama" class="form-control" value="<?= $p['nama']; ?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>NIK Pendaki</label>
+                                                    <input type="text" name="nik" class="form-control" value="<?= $p['nik']; ?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Telepon</label>
+                                                    <input type="text" name="telp" class="form-control" value="<?= $p['telp']; ?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Status</label>
+                                                    <input type="text" name="status" class="form-control" value="<?= $p['status']; ?>">
+                                                </div>
+                                                <!-- ... -->
                                             </div>
-                                            <div class="form-group">
-                                                <label>Nama Pendaki</label>
-                                                <input type="text" name="nama" class="form-control" value="<?= $p['nama']; ?>">
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
                                             </div>
-                                            <div class="form-group">
-                                                <label>NIK Pendaki</label>
-                                                <input type="text" name="nik" class="form-control" value="<?= $p['nik']; ?>">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Telepon</label>
-                                                <input type="text" name="telp" class="form-control" value="<?= $p['telp']; ?>">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Status</label>
-                                                <input type="text" name="status" class="form-control" value="<?= $p['status']; ?>">
-                                            </div>
-                                            <!-- ... -->
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save changes</button>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

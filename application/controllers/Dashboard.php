@@ -280,8 +280,9 @@ class Dashboard extends CI_Controller
         $this->load->view('dashboard/DashboardAccident', $data);
         $this->load->view('dashboard/footer_dashboard');
     }
-    public function editModal($id)
+    public function editModal()
     {
+        $id = $this->input->post("id");
         $this->Dashboard_model->proses_edit_data($id);
         $this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert">Data berhasil di edit!</div>');
         redirect('dashboard/DashboardAccident');

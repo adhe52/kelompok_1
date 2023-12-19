@@ -197,45 +197,6 @@
 <!-- Custom scripts for all pages-->
 <script src="<?= base_url() ?>assetss/js/sb-admin-2.min.js"></script>
 <script>
-    function handleCheckIn(button, tanggalPendakian) {
-        var kodePendaftar = button.getAttribute('data-kode');
-
-        // Mengubah format tanggal menjadi sesuai dengan objek Date di JavaScript (misalnya: YYYY-MM-DD)
-        var formattedTanggal = tanggalPendakian.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$3-$1-$2');
-
-        // Mengambil tanggal pendakian dari baris data terkait
-        var tanggalPendakianDate = new Date(formattedTanggal);
-
-        // Mengambil tanggal saat ini
-        var tanggalSaatIni = new Date();
-
-        // Memeriksa apakah tanggal pendakian sudah melewati tanggal saat ini
-        if (tanggalPendakianDate < tanggalSaatIni) {
-            // Jika ya, ubah warna tombol menjadi merah
-            button.classList.remove('btn-primary');
-            button.classList.add('btn-danger');
-        }
-
-        // Tambahkan AJAX request untuk menghapus data dari database
-        $.ajax({
-            type: "POST",
-            url: "<?= base_url() ?>Dashboard/daftar/" + kodePendaftar,
-            success: function(response) {
-                // Handle response dari server setelah menghapus data
-                console.log(response);
-
-                // Mengarahkan ke halaman regisulang.php dengan parameter kode
-                window.location.href = '<?= base_url() ?>Dashboard/Simaksi?kode=' + kodePendaftar;
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        });
-    }
-
-
-
-
     function handleDelete(kode) {
         // Tambahkan logika AJAX untuk penghapusan data
         $.ajax({

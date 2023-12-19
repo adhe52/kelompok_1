@@ -132,14 +132,9 @@
         </div>
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Daftar Pendaki Turun</h3>
+                <h3 class="card-title">Daftar Accident</h3>
             </div>
-            <form method="get" action="<?= base_url('dashboard/searchaccident') ?>">
-                <?php
-                if ($this->session->flashdata('success')) {
-                    echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
-                }
-                ?>
+            <form method="get" action="<?= base_url('Dashboard/searchaccident') ?>">
                 <div class="input-group mb-3">
                     <input type="text" name="search" class="form-control" placeholder="Cari berdasarkan Kode Pendakian">
                     <div class="input-group-append">

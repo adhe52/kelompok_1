@@ -243,6 +243,16 @@ class Dashboard extends CI_Controller
         $this->load->view('dashboard/footer_dashboard');
     }
 
+    public function searchaccident()
+    {
+        $search = $this->input->get('search');
+
+        $data['PendakiNaik'] = $this->Dashboard_model->searchpendakiaccident($search);
+
+        $this->load->view('dashboard/header_dashboard');
+        $this->load->view('dashboard/body_accident', $data);
+        $this->load->view('dashboard/footer_dashboard');
+    }
     // Controller Kelompok
 
     public function Kelompok()
@@ -268,16 +278,6 @@ class Dashboard extends CI_Controller
     {
         $this->load->view('dashboard/header_dashboard');
         $this->load->view('dashboard/body_regis');
-        $this->load->view('dashboard/footer_dashboard');
-    }
-    public function searchaccident()
-    {
-        $search = $this->input->get('search');
-
-        $data['PendakiNaik'] = $this->Dashboard_model->searchpendakiaccident($search);
-
-        $this->load->view('dashboard/header_dashboard');
-        $this->load->view('dashboard/DashboardAccident', $data);
         $this->load->view('dashboard/footer_dashboard');
     }
     public function editModal()
